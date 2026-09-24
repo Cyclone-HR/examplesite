@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>StudyBuddy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#F6F7FF;--card:#fff;--ink:#1E1B4B;--mute:#5F6085;--line:#E1E3F5;--pri:#5B5BF0;--on:#fff;--pop:#FF6B8B;--sun:#FFC53D;--mint:#1FAE8B;--bad:#E5484D;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14132B;--card:#1F1E3D;--ink:#F1F0FF;--mute:#A9A9CF;--line:#33325E;--pri:#8B8BFF;--on:#14132B;--mint:#3DD6B0;--bad:#FF7A7F}}
+:root[data-theme="dark"]{--bg:#14132B;--card:#1F1E3D;--ink:#F1F0FF;--mute:#A9A9CF;--line:#33325E;--pri:#8B8BFF;--on:#14132B;--mint:#3DD6B0;--bad:#FF7A7F}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Nunito,system-ui,sans-serif}
+h1,h2,h3,.logo{font-family:Fredoka,Nunito,system-ui,sans-serif;margin:0;line-height:1.15}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line)}
+.bar{display:flex;align-items:center;gap:14px;padding:10px 0;flex-wrap:wrap}
+.logo{font-size:26px;font-weight:700;display:flex;align-items:center;gap:8px}
+.logo i{font-style:normal;background:var(--sun);border-radius:12px;width:38px;height:38px;display:grid;place-items:center;transform:rotate(-6deg);font-size:22px}
+nav{display:flex;gap:6px;overflow-x:auto;margin-left:auto}
+nav button{border:0;background:none;padding:8px 14px;border-radius:99px;font-weight:700;color:var(--mute);white-space:nowrap}
+nav button[aria-current=page]{background:var(--pri);color:var(--on)}
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(28px,5vw,44px);max-width:16ch}
+.hero p{color:var(--mute);margin:8px 0 16px;max-width:52ch}
+.search{display:flex;gap:8px;max-width:560px}
+input,select,textarea{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:11px 14px;width:100%}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.chip{--c:#5B5BF0;border:2px solid var(--c);background:var(--card);border-radius:99px;padding:6px 14px;font-weight:700}
+.chip[aria-pressed=true]{background:var(--c);color:#111}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;padding-bottom:40px}
+.card{--c:#5B5BF0;background:var(--card);border:2px solid var(--line);border-top:8px solid var(--c);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:19px}
+.card p{margin:0;color:var(--mute);font-size:15px;flex:1}
+.tag{display:inline-block;font-size:13px;font-weight:700;border-radius:99px;padding:2px 10px;background:color-mix(in srgb,var(--c) 30%,var(--card))}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--pri);color:var(--on);border:0;border-radius:12px;padding:9px 16px;font-weight:700}
+.btn.alt{background:none;color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px;max-width:640px;margin:22px auto 40px}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:11px 14px;margin:8px 0;font-weight:600}
+.opt.ok{border-color:var(--mint);background:color-mix(in srgb,var(--mint) 22%,var(--card))}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 20%,var(--card))}
+.prog{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-bottom:16px}
+.prog b{display:block;height:100%;background:var(--pop);transition:width .3s}
+.flip{width:100%;min-height:230px;border:0;border-radius:24px;background:var(--pri);color:var(--on);font:600 24px/1.3 Fredoka,sans-serif;padding:26px;display:grid;place-items:center;text-align:center}
+.flip.back{background:var(--sun);color:#1E1B4B}
+label{display:block;font-weight:700;margin:12px 0 4px}
+.muted{color:var(--mute)}
+dialog{border:0;border-radius:22px;padding:22px;max-width:600px;width:calc(100% - 28px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(20,19,43,.55)}
+pre{white-space:pre-wrap;font:15px/1.6 Nunito,sans-serif;background:var(--bg);border-radius:14px;padding:14px;max-height:50vh;overflow:auto}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%}
+#toast.on{opacity:1}
+.sec{font-size:24px;margin:34px 0 14px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}
+.stat{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 20px;color:var(--mute);font-weight:600}
+.stat b{font:700 30px Fredoka,sans-serif;color:var(--ink)}
+.feat{text-align:left;color:var(--ink);font:inherit;cursor:pointer}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:1}
+.mf{background:var(--pri);color:var(--on);border-radius:14px;padding:12px;min-height:96px;font:600 15px/1.3 Fredoka,sans-serif}
+.mf.b{background:var(--sun);color:#1E1B4B}
+.mf small{display:block;font:600 12px Nunito,sans-serif;opacity:.8;margin-bottom:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+<div class="logo" role="button" tabindex="0" style="cursor:pointer" onclick="go('home')" onkeydown="if(event.key==='Enter')go('home')"><i aria-hidden="true">📚</i>StudyBuddy</div>
+<nav id="nav" aria-label="Sections"></nav><button id="th" class="btn alt" aria-label="Switch light or dark mode">🌗</button>
+</div></header>
+<main class="wrap" id="app"></main>
+<dialog id="dlg"></dialog>
+<div id="toast" role="status"></div>
+<script>
+const SUB=[
+{id:'math',n:'Math',e:'➗',c:'#FFC53D'},{id:'sci',n:'Science',e:'🔬',c:'#2EC4A0'},
+{id:'eng',n:'English',e:'✏️',c:'#FF6B8B'},{id:'his',n:'History',e:'🏛️',c:'#38BDF8'},
+{id:'cs',n:'Computer',e:'💻',c:'#A78BFA'},{id:'study',n:'Study Skills',e:'🧠',c:'#FB923C'}];
+const sub=id=>id==='mix'?{id:'mix',n:'Mixed',e:'🎲',c:'#5B5BF0'}:SUB.find(s=>s.id===id)||SUB[0];
+const RES=[
+{id:'r1',t:'Algebra Basics Reviewer',s:'math',ty:'Reviewer',d:'Linear equations, factoring and the quadratic formula in one page.',b:'ALGEBRA BASICS\n\n1. Order of operations: parentheses, exponents, multiplication/division, addition/subtraction.\n2. Solve linear equations: do the same thing to both sides until x is alone.\n3. Difference of squares: a² − b² = (a + b)(a − b)\n4. Quadratic formula: x = (−b ± √(b² − 4ac)) / 2a\n5. Slope: m = (y₂ − y₁) / (x₂ − x₁)'},
+{id:'r2',t:'Geometry Formula Sheet',s:'math',ty:'Cheat sheet',d:'Area, perimeter and volume formulas you can scan in seconds.',b:'GEOMETRY FORMULAS\n\nRectangle area = l × w\nTriangle area = ½ × b × h\nCircle area = πr²\nCircle circumference = 2πr\nPythagorean theorem: a² + b² = c²\nBox volume = l × w × h\nCylinder volume = πr²h\nSphere volume = 4/3 πr³'},
+{id:'r3',t:'Cell Biology Notes',s:'sci',ty:'Notes',d:'Organelles and what each one does, plus plant vs. animal cells.',b:'CELL BIOLOGY\n\n• Nucleus: holds DNA, controls the cell.\n• Mitochondria: makes energy (ATP).\n• Ribosomes: build proteins.\n• Cell membrane: controls what enters and leaves.\n• Chloroplasts (plants only): photosynthesis.\n• Cell wall (plants only): gives structure.\n\nPlant cells have a cell wall, chloroplasts and a large vacuole. Animal cells do not.'},
+{id:'r4',t:"Newton's Laws Reviewer",s:'sci',ty:'Reviewer',d:'The three laws of motion with everyday examples.',b:"NEWTON'S LAWS\n\n1st (Inertia): an object keeps its motion unless a net force acts on it. Example: you lurch forward when a bus brakes.\n2nd: F = m × a. More force means more acceleration; more mass means less.\n3rd: every action has an equal and opposite reaction. Example: a rocket pushes gas down, gas pushes the rocket up."},
+{id:'r5',t:'Grammar Essentials',s:'eng',ty:'Reviewer',d:'Parts of speech and the mistakes students make most often.',b:'GRAMMAR ESSENTIALS\n\nParts of speech: noun, pronoun, verb, adjective, adverb, preposition, conjunction, interjection.\n\nSubject–verb agreement: "Neither of the boys is ready."\nThere / their / they\'re: place / belonging / they are.\nIts / it\'s: belonging / it is.\nAffect (verb) vs. effect (noun).\nUse a comma before a conjunction joining two full sentences.'},
+{id:'r6',t:'Essay Writing Guide',s:'eng',ty:'Guide',d:'A simple five-paragraph structure with a checklist.',b:'ESSAY GUIDE\n\n1. Introduction: hook, background, thesis statement.\n2. Body 1–3: one main idea each. Topic sentence, evidence, explanation.\n3. Conclusion: restate the thesis in new words, then say why it matters.\n\nChecklist: Is my thesis arguable? Does every paragraph support it? Did I proofread out loud?'},
+{id:'r7',t:'World War II Timeline',s:'his',ty:'Notes',d:'Key events from 1939 to 1945 in order.',b:'WORLD WAR II TIMELINE\n\n1939: Germany invades Poland; Britain and France declare war.\n1941: Attack on Pearl Harbor; the US enters the war.\n1944: D-Day landings in Normandy (June 6).\n1945: Germany surrenders (May). Atomic bombs dropped on Hiroshima and Nagasaki (August). Japan surrenders, ending the war.'},
+{id:'r8',t:'Programming Basics',s:'cs',ty:'Notes',d:'Variables, conditions, loops and functions explained plainly.',b:'PROGRAMMING BASICS\n\n• Variable: a named box that stores a value.\n• Condition (if/else): choose what to do based on true or false.\n• Loop (for/while): repeat steps.\n• Function: a reusable block of code that takes input and gives output.\n• Bug: a mistake in code. Debug by reading the error and testing small pieces.'},
+{id:'r9',t:'Study Smarter Guide',s:'study',ty:'Guide',d:'Proven techniques for remembering more in less time.',b:'STUDY SMARTER\n\n1. Active recall: close the book and write what you remember. Testing yourself beats rereading.\n2. Spaced repetition: review after 1 day, 3 days, then 1 week.\n3. Pomodoro: 25 minutes focused, 5 minutes rest.\n4. Teach it: explain the topic to a friend in simple words.\n5. Sleep: your brain stores memories while you rest, so avoid all-nighters.'},
+{id:'r10',t:'Exam Week Checklist',s:'study',ty:'Cheat sheet',d:'What to do a week, a day and an hour before your exam.',b:'EXAM CHECKLIST\n\n7 days before: list every topic, then mark the ones you find hardest.\n3 days before: take practice quizzes and fix mistakes.\n1 day before: light review, pack your things, sleep early.\nExam morning: eat breakfast, arrive early, read every instruction.\nDuring the exam: answer the easy questions first, then return to the hard ones.'},
+{id:'r11',t:'Photosynthesis and Respiration',s:'sci',ty:'Notes',d:'How plants make food and how cells release energy.',b:'PHOTOSYNTHESIS\n6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂\nHappens in chloroplasts.\n\nCELLULAR RESPIRATION\nC₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy (ATP)\nHappens in mitochondria.\n\nThe two processes are almost opposites: the products of one are the inputs of the other.'},
+{id:'r12',t:'Fractions, Decimals and Percents',s:'math',ty:'Cheat sheet',d:'Convert between the three forms quickly.',b:'CONVERSIONS\n\nFraction to decimal: divide top by bottom (3/4 = 0.75).\nDecimal to percent: multiply by 100 (0.75 = 75%).\nPercent to decimal: divide by 100 (12% = 0.12).\nPercent of a number: convert to decimal, then multiply (15% of 80 = 0.15 × 80 = 12).\nAdd fractions: find a common denominator first.'},
+{id:'r13',t:'Causes of World War I',s:'his',ty:'Notes',d:'The MAIN causes and the event that set it off.',b:'CAUSES OF WORLD WAR I (M.A.I.N.)\n\nMilitarism: an arms race between the great powers.\nAlliances: Triple Entente vs. Triple Alliance pulled countries in.\nImperialism: rivalry over colonies and resources.\nNationalism: strong loyalty to nation, especially in the Balkans.\n\nSpark: the assassination of Archduke Franz Ferdinand in Sarajevo, 1914.'}];
+const QZ={
+math:[['Solve 3x + 5 = 20. What is x?',['3','5','15','25'],1,'Subtract 5 to get 3x = 15, then divide by 3.'],['Area of a circle with radius 4?',['8π','16π','4π','64π'],1,'A = πr² = π × 16.'],['Slope of the line through (1, 2) and (3, 6)?',['1','2','3','4'],1,'(6 − 2) / (3 − 1) = 2.'],['What is 15% of 80?',['10','12','15','8'],1,'0.15 × 80 = 12.']],
+sci:[['What is the powerhouse of the cell?',['Nucleus','Ribosome','Mitochondria','Vacuole'],2,'Mitochondria make ATP, the cell\'s energy.'],['Which gas do plants absorb for photosynthesis?',['Oxygen','Carbon dioxide','Nitrogen','Helium'],1,'Plants take in CO₂ and release oxygen.'],['What is the SI unit of force?',['Joule','Watt','Newton','Pascal'],2,'Named after Isaac Newton.'],['Which planet is closest to the Sun?',['Venus','Earth','Mars','Mercury'],3,'Mercury orbits closest.']],
+eng:[['Choose the correct sentence.',['Neither of the boys are ready.','Neither of the boys is ready.','Neither of the boy is ready.','Neither of the boys were ready.'],1,'"Neither" is singular, so it takes "is".'],['Which word is a noun?',['Quickly','Happiness','Run','Beautiful'],1,'Happiness names a thing (an idea).'],['Which word means the same as "happy"?',['Joyful','Gloomy','Angry','Tired'],0,'Joyful is a synonym.'],['___ going to the library after class.',['Their','There','They\'re','Thier'],2,'They\'re = they are.']],
+his:[['In what year did World War II begin?',['1914','1939','1941','1945'],1,'Germany invaded Poland in 1939.'],['Who was the first US president?',['Abraham Lincoln','Thomas Jefferson','George Washington','John Adams'],2,'He served from 1789 to 1797.'],['The Renaissance began in which country?',['France','Italy','Spain','England'],1,'It began in Italian city-states like Florence.'],['When did the Berlin Wall fall?',['1961','1975','1989','2001'],2,'It fell on November 9, 1989.']],
+cs:[['What does HTML stand for?',['HyperText Markup Language','High Tech Modern Language','Hyper Transfer Mail Link','Home Tool Markup Language'],0,'It structures content on web pages.'],['Which structure repeats a block of code?',['Variable','Loop','Comment','Constant'],1,'Loops such as for and while repeat code.'],['What is 5 in binary?',['011','110','101','111'],2,'4 + 1 = 5, so 101.']],
+study:[['What is active recall?',['Rereading your notes','Testing yourself from memory','Highlighting text','Listening to music'],1,'Retrieving information from memory strengthens it more than rereading.'],['In the Pomodoro method, how long is one focus session?',['10 minutes','25 minutes','60 minutes','2 hours'],1,'Work 25 minutes, then rest 5.'],['What is spaced repetition?',['Cramming the night before','Reviewing at increasing intervals','Studying only once','Studying with friends'],1,'Reviewing after gaps helps you remember for longer.']]};
+const FC={
+math:[['Quadratic formula','x = (−b ± √(b² − 4ac)) / 2a'],['Pythagorean theorem','a² + b² = c²'],['Circumference of a circle','2πr'],['Difference of squares','a² − b² = (a + b)(a − b)']],
+sci:[['Function of mitochondria','Makes energy (ATP) for the cell'],['Newton\'s 2nd law','F = m × a'],['Photosynthesis inputs','Sunlight, water and carbon dioxide'],['Which organelle holds DNA?','The nucleus']],
+eng:[['Its vs. it\'s','Its = belonging. It\'s = it is.'],['What is a thesis statement?','The main argument of an essay, usually in the introduction'],['Synonym','A word with the same meaning as another'],['What is an adverb?','A word that describes a verb, adjective or another adverb']],
+his:[['D-Day','June 6, 1944: Allied landings in Normandy'],['Start of WWII','1939: Germany invades Poland'],['Renaissance','A rebirth of art and learning starting in 14th-century Italy'],['Fall of the Berlin Wall','1989']],
+cs:[['Variable','A named place that stores a value'],['Function','A reusable block of code'],['Loop','Repeats steps until a condition is met'],['Bug','A mistake in a program']],
+study:[['Active recall','Testing yourself from memory instead of rereading'],['Spaced repetition','Reviewing material at increasing time gaps'],['Pomodoro technique','25 minutes of focus, then a 5 minute break'],['Best way to test understanding','Explain the topic in simple words to someone else']]};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let shared=[];try{shared=JSON.parse(localStorage.getItem('sb_shared')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('sb_shared',JSON.stringify(shared))}catch(e){}};
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)};
+const all=()=>[...shared,...RES];
+let P={saved:[],best:{},known:{}};try{P=Object.assign(P,JSON.parse(localStorage.getItem('sb_prog')||'{}'))}catch(e){}
+const saveP=()=>{try{localStorage.setItem('sb_prog',JSON.stringify(P))}catch(e){}};
+const TABS=[['home','Home'],['browse','Browse'],['quiz','Quizzes'],['cards','Flashcards'],['focus','Focus'],['share','Share']];
+let st={tab:'home',f:'',ty:'',sv:false,q:'',qs:null,qi:0,sc:0,pick:null,ds:null,ci:0,back:false};
+function go(t){st.tab=t;render();window.scrollTo(0,0)}
+function chips(sel,fn,all_){return `<div class="chips" role="group" aria-label="Subjects">${all_?`<button class="chip" aria-pressed="${!sel}" onclick="${fn}('')">All</button>`:''}${SUB.map(s=>`<button class="chip" style="--c:${s.c}" aria-pressed="${sel===s.id}" onclick="${fn}('${s.id}')">${s.e} ${s.n}</button>`).join('')}</div>`}
+function render(){
+$('#nav').innerHTML=TABS.map(([k,l])=>`<button ${st.tab===k?'aria-current="page"':''} onclick="go('${k}')">${l}</button>`).join('');
+$('#app').innerHTML=({home:vHome,browse:vBrowse,quiz:vQuiz,cards:vCards,focus:vFocus,share:vShare})[st.tab]();
+if(st.tab==='browse')list();
+}
+function vBrowse(){return `<section class="hero"><h1>Free study help, all in one place</h1><p>Search reviewers and notes by subject, download what you need, then test yourself with quizzes and flashcards.</p>
+<div class="search"><input id="q" type="search" placeholder="Search reviewers, notes, topics…" aria-label="Search resources" value="${esc(st.q)}" oninput="st.q=this.value;list()"></div><div class="row" style="margin-top:10px"><select aria-label="Filter by type" style="width:auto" onchange="st.ty=this.value;list()"><option value="">All types</option>${['Reviewer','Notes','Cheat sheet','Guide'].map(t=>`<option ${st.ty===t?'selected':''}>${t}</option>`).join('')}</select><button class="chip" style="--c:#FFC53D" aria-pressed="${st.sv}" onclick="st.sv=!st.sv;render()">★ Saved (${P.saved.length})</button></div></section>
+${chips(st.f,'setF',true)}<div class="grid" id="list"></div>`}
+function setF(v){st.f=v;render();$('#q')&&list()}
+function list(){
+const q=st.q.trim().toLowerCase();
+const r=all().filter(x=>(!st.f||x.s===st.f)&&(!st.ty||x.ty===st.ty)&&(!st.sv||P.saved.includes(x.id))&&(!q||(x.t+' '+x.d+' '+x.ty+' '+x.b+' '+sub(x.s).n).toLowerCase().includes(q)));
+$('#list').innerHTML=r.length?r.map(x=>{const s=sub(x.s);return `<article class="card" style="--c:${s.c}"><div class="row"><span class="tag">${s.e} ${s.n}</span><span class="tag" style="--c:#999">${esc(x.ty)}</span></div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p><div class="muted" style="font-size:13px">${x.mine?'Shared by you':'StudyBuddy'}</div><div class="row"><button class="btn" onclick="openR('${x.id}')">Open</button><button class="btn alt" onclick="dl('${x.id}')">Download</button><button class="btn alt" aria-pressed="${P.saved.includes(x.id)}" aria-label="Save for later" onclick="sv('${x.id}')">${P.saved.includes(x.id)?'★':'☆'}</button></div></article>`}).join(''):`<p class="muted">No matches. Try a different word, pick another subject, or share your own notes on the Share tab.</p>`}
+function sv(id){P.saved=P.saved.includes(id)?P.saved.filter(i=>i!==id):[...P.saved,id];saveP();list();const b=document.querySelector('.chip[onclick^="st.sv"]');if(b)b.textContent='★ Saved ('+P.saved.length+')'}
+function openR(id){const x=all().find(r=>r.id===id);$('#dlg').innerHTML=`<h2>${esc(x.t)}</h2><p class="muted">${sub(x.s).n} · ${esc(x.ty)}</p><pre>${esc(x.b)}</pre><div class="row"><button class="btn" onclick="dl('${id}')">Download</button><button class="btn alt" onclick="cp('${id}')">Copy text</button><button class="btn alt" onclick="$('#dlg').close()">Close</button></div>`;$('#dlg').showModal()}
+async function dl(id){const x=all().find(r=>r.id===id);
+try{const d=window.claude&&await claude.use('downloads');
+if(!d){toast('Downloads are not available here. Use Copy text instead.');return}
+await d.save({filename:x.t.replace(/[^\w]+/g,'-').toLowerCase()+'.txt',data:x.t+'\n\n'+x.b});toast('Saved!')}
+catch(e){if(!e||e.code!=='declined')toast('Could not save. Use Copy text instead.')}}
+async function cp(id){const x=all().find(r=>r.id===id);try{await navigator.clipboard.writeText(x.t+'\n\n'+x.b);toast('Copied to clipboard')}catch(e){toast('Copy failed. Select the text and copy it.')}}
+function vQuiz(){
+if(!st.qs)return quizHome();
+const Q=st.Q;
+if(st.qi>=Q.length){const p=Math.round(st.sc/Q.length*100);if(p>(P.best[st.qs]||0)){P.best[st.qs]=p;saveP()}return `<div class="panel"><h2>${st.sc} / ${Q.length} correct</h2><p class="muted">${p>=75?'Great work! You know this topic well.':p>=50?'Good start. Review the notes and try again.':'Keep going. Open the reviewer, then retake the quiz.'}</p><div class="row"><button class="btn" onclick="startQ('${st.qs}')">Try again</button><button class="btn alt" onclick="st.qs=null;render()">Pick another subject</button></div></div>`}
+const [q,o,a,ex]=Q[st.qi];
+return `<div class="panel"><div class="row" style="justify-content:space-between"><span class="muted">${sub(st.qs).e} ${sub(st.qs).n}: question ${st.qi+1} of ${Q.length}</span><button class="btn alt" style="padding:4px 12px" onclick="st.qs=null;render()">Quit</button></div><div class="prog"><b style="width:${st.qi/Q.length*100}%"></b></div><h2>${esc(q)}</h2>${o.map((t,i)=>`<button class="opt ${st.pick===null?'':i===a?'ok':i===st.pick?'no':''}" ${st.pick!==null?'disabled':''} onclick="ans(${i})">${esc(t)}</button>`).join('')}${st.pick!==null?`<p><b>${st.pick===a?'Correct!':'Not quite.'}</b> ${esc(ex)}</p><button class="btn" onclick="st.qi++;st.pick=null;render()">${st.qi+1>=Q.length?'See score':'Next question'}</button>`:''}</div>`}
+function quizHome(){return `<section class="hero"><h1>Practice quizzes</h1><p>Choose a subject, answer the questions and see how you did. Questions and choices are shuffled every time.</p></section><div class="grid">${SUB.map(s=>{const q=QZ[s.id],b=P.best[s.id];return `<article class="card" style="--c:${s.c}"><div class="row"><span class="tag">${s.e} ${s.n}</span><span class="tag" style="--c:#999">${q.length} questions</span></div><h3>${s.n} quiz</h3><p><b>Sample:</b> ${esc(q[0][0])}</p><div class="row">${q[0][1].map(o=>`<span class="tag" style="--c:#999">${esc(o)}</span>`).join('')}</div><div class="muted" style="font-size:14px">${b!=null?'Best score: '+b+'%':'Not taken yet'}</div><div><button class="btn" onclick="startQ('${s.id}')">Start quiz</button></div></article>`}).join('')}<article class="card" style="--c:#5B5BF0"><div class="row"><span class="tag">🎲 Mixed</span><span class="tag" style="--c:#999">8 questions</span></div><h3>Mixed quiz</h3><p>A random set of questions from every subject. Great for checking what you remember overall.</p><div class="muted" style="font-size:14px">${P.best.mix!=null?'Best score: '+P.best.mix+'%':'Not taken yet'}</div><div><button class="btn" onclick="startQ('mix')">Start mixed quiz</button></div></article></div>`}
+function cardsHome(){return `<section class="hero"><h1>Flashcards</h1><p>Pick a deck. Tap a card to flip it, then mark whether you knew it. Cards you miss stay in the deck for another try.</p></section><div class="grid">${SUB.map(s=>{const D=FC[s.id],kn=D.filter(k=>P.known[s.id+':'+k[0]]).length;return `<article class="card" style="--c:${s.c}"><div class="row"><span class="tag">${s.e} ${s.n}</span><span class="tag" style="--c:#999">${D.length} cards</span></div><div class="mini"><div class="mf"><small>Front</small>${esc(D[0][0])}</div><div class="mf b"><small>Back</small>${esc(D[0][1])}</div></div><div class="muted" style="font-size:14px">Known: ${kn} of ${D.length}</div><div><button class="btn" onclick="startC('${s.id}')">Study deck</button></div></article>`}).join('')}</div>`}
+function homeS(id){st.f=id;go('browse')}
+function quickQ(){st.tab='quiz';startQ('mix');window.scrollTo(0,0)}
+function vHome(){
+const cnt=o=>Object.values(o).reduce((a,b)=>a+b.length,0);
+const F=[['browse','📖','#FFC53D','Reviewers and notes','Search free study materials by subject and download them.'],['quiz','📝','#FF6B8B','Practice quizzes','Answer questions and see your best score for each subject.'],['cards','🃏','#2EC4A0','Flashcards','Flip through key terms and track the ones you know.'],['focus','⏱️','#38BDF8','Focus timer','Study in 25-minute sessions with short breaks.'],['share','🤝','#A78BFA','Share your notes','Post your own reviewers to help other students.']];
+const St=[['Pick a subject','Choose what you need help with, from Math to Study Skills.'],['Study the material','Open a reviewer, read the notes, or download them for later.'],['Test yourself','Take a quiz or flip flashcards to see what you really remember.']];
+return `<section class="hero" style="padding:38px 0 6px"><h1 style="font-size:clamp(34px,7vw,58px);max-width:15ch">Study smarter with free help from StudyBuddy</h1><p style="font-size:18px;max-width:56ch">StudyBuddy puts reviewers, notes, quizzes and flashcards in one simple place, so every student can prepare for class and exams without paying for materials.</p><div class="row"><button class="btn" style="padding:13px 24px;font-size:17px" onclick="go('browse')">Browse study materials</button><button class="btn alt" style="padding:13px 24px;font-size:17px" onclick="quickQ()">Take a quick quiz</button></div></section>
+<div class="stats"><div class="stat"><b>${RES.length}</b><br>study materials</div><div class="stat"><b>${cnt(QZ)}</b><br>quiz questions</div><div class="stat"><b>${cnt(FC)}</b><br>flashcards</div><div class="stat"><b>${SUB.length}</b><br>subjects</div></div>
+<h2 class="sec">Start with a subject</h2>${chips('','homeS')}
+<h2 class="sec">Everything you need to study</h2><div class="grid" style="padding-bottom:0">${F.map(f=>`<button class="card feat" style="--c:${f[2]}" onclick="go('${f[0]}')"><span style="font-size:32px">${f[1]}</span><h3>${f[3]}</h3><p>${f[4]}</p></button>`).join('')}</div>
+<h2 class="sec">How it works</h2><div class="grid" style="padding-bottom:0">${St.map((x,i)=>`<div class="card" style="--c:#5B5BF0"><h3>${i+1}. ${x[0]}</h3><p>${x[1]}</p></div>`).join('')}</div>
+<h2 class="sec">Start here</h2><div class="grid" style="padding-bottom:0">${['r1','r4','r9'].map(id=>{const x=RES.find(r=>r.id===id),u=sub(x.s);return `<article class="card" style="--c:${u.c}"><div class="row"><span class="tag">${u.e} ${u.n}</span><span class="tag" style="--c:#999">${x.ty}</span></div><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p><div><button class="btn" onclick="openR('${id}')">Open</button></div></article>`}).join('')}</div>
+<p class="muted" style="text-align:center;padding:30px 0 40px">Free for every student. No account needed.</p>`}
+function startQ(id){st.qs=id;st.qi=0;st.sc=0;st.pick=null;st.Q=(id==='mix'?Object.values(QZ).flat().sort(()=>Math.random()-.5).slice(0,8):QZ[id]).map(([q,o,a,e])=>{const m=o.map((t,i)=>[t,i===a]).sort(()=>Math.random()-.5);return [q,m.map(x=>x[0]),m.findIndex(x=>x[1]),e]}).sort(()=>Math.random()-.5);render()}
+function ans(i){st.pick=i;if(i===st.Q[st.qi][2])st.sc++;render()}
+function vCards(){
+if(!st.ds)return cardsHome();
+const D=FC[st.ds],c=D[st.ci],kn=D.filter(k=>P.known[st.ds+':'+k[0]]).length;
+return `<div class="panel"><div class="muted">${sub(st.ds).e} ${sub(st.ds).n} · Card ${st.ci+1} of ${D.length}</div><div class="prog"><b style="width:${(st.ci+1)/D.length*100}%"></b></div><button class="flip ${st.back?'back':''}" onclick="st.back=!st.back;render()" aria-label="Flip card">${esc(st.back?c[1]:c[0])}</button><p class="muted" style="text-align:center">${st.back?'Answer':'Question'}. Tap to flip. Known: ${kn} of ${D.length}</p><div class="row" style="justify-content:center;margin-bottom:12px"><button class="btn" onclick="mark(1)">I knew it</button><button class="btn alt" onclick="mark(0)">Review again</button></div><div class="row"><button class="btn alt" ${st.ci?'':'disabled'} onclick="st.ci--;st.back=false;render()">Previous</button><button class="btn" ${st.ci<D.length-1?'':'disabled'} onclick="st.ci++;st.back=false;render()">Next</button><button class="btn alt" onclick="shuf()">Shuffle</button><button class="btn alt" onclick="st.ds=null;render()">Change subject</button></div></div>`}
+function mark(v){const D=FC[st.ds];P.known[st.ds+':'+D[st.ci][0]]=v;saveP();if(st.ci<D.length-1){st.ci++;st.back=false}else toast('End of deck. '+D.filter(k=>P.known[st.ds+':'+k[0]]).length+' of '+D.length+' known.');render()}
+function startC(id){st.ds=id;st.ci=0;st.back=false;render()}
+function shuf(){const D=FC[st.ds];for(let i=D.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[D[i],D[j]]=[D[j],D[i]]}st.ci=0;st.back=false;render()}
+const T={m:1500,run:false,mode:'Focus',h:null};
+const fmt=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
+function vFocus(){return `<div class="panel" style="text-align:center"><h1 style="font-size:22px">${T.mode} timer</h1><div id="tm" style="font:700 72px Fredoka,sans-serif;margin:8px 0">${fmt(T.m)}</div><div class="row" style="justify-content:center"><button class="btn" onclick="tgl()">${T.run?'Pause':'Start'}</button><button class="btn alt" onclick="setT(1500,'Focus')">Focus 25 min</button><button class="btn alt" onclick="setT(300,'Break')">Break 5 min</button></div><p class="muted">Study for 25 minutes, then rest for 5. Short breaks help you remember more.</p></div>`}
+function setT(n,m){clearInterval(T.h);T.run=false;T.m=n;T.mode=m;render()}
+function tgl(){if(T.run){clearInterval(T.h);T.run=false;render();return}T.run=true;T.h=setInterval(()=>{T.m--;const e=$('#tm');if(e)e.textContent=fmt(T.m);if(T.m<=0){clearInterval(T.h);T.run=false;const f=T.mode==='Focus';toast(f?'Time is up! Take a 5 minute break.':'Break over. Ready to study?');T.mode=f?'Break':'Focus';T.m=f?300:1500;if(st.tab==='focus')render()}},1000);render()}
+function vShare(){return `<section class="hero"><h1>Share your study resources</h1><p>Turn your best notes into help for other students. Your shares are saved in this browser and show up in Browse.</p></section>
+<div class="panel" style="margin-left:0"><label for="t">Title</label><input id="t" maxlength="80" placeholder="e.g. Photosynthesis summary">
+<label for="s">Subject</label><select id="s">${SUB.map(s=>`<option value="${s.id}">${s.n}</option>`).join('')}</select>
+<label for="ty">Type</label><select id="ty"><option>Notes</option><option>Reviewer</option><option>Cheat sheet</option><option>Guide</option></select>
+<label for="d">Short description</label><input id="d" maxlength="120" placeholder="What will students learn from this?">
+<label for="b">Content</label><textarea id="b" rows="8" placeholder="Paste or type your notes here"></textarea>
+<p><button class="btn" onclick="addR()">Share resource</button></p></div>
+${shared.length?`<h2 style="margin-bottom:12px">Your shared resources</h2><div class="grid">${shared.map(x=>`<article class="card" style="--c:${sub(x.s).c}"><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p><div class="row"><button class="btn alt" onclick="delR('${x.id}')">Remove</button></div></article>`).join('')}</div>`:''}`}
+function addR(){const t=$('#t').value.trim(),b=$('#b').value.trim();
+if(!t||!b){toast('Add a title and some content first.');return}
+shared.unshift({id:'u'+Date.now(),t,s:$('#s').value,ty:$('#ty').value,d:$('#d').value.trim()||'Shared by a student.',b,mine:1});save();toast('Shared! Find it in Browse.');render()}
+function delR(id){shared=shared.filter(x=>x.id!==id);save();render()}
+$('#th').onclick=()=>{const d=document.documentElement,c=d.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');d.dataset.theme=c==='dark'?'light':'dark'};
+render();
+</script>
+</body>
+</html>
